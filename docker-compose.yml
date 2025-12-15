@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  postgres-anon-db:
+    image: registry.gitlab.com/dalibo/postgresql_anonymizer:stable
+    hostname: postgres-anon-db
+    container_name: postgres-anon-db
+    environment:
+      POSTGRES_DB: barging
+      POSTGRES_USER: user_admin
+      POSTGRES_PASSWORD: strong_password
+      
+    ports:
+      - "6453:5432" 
+      
+    volumes:
+      - pgdata:/var/lib/postgresql/data 
+      
+    restart: always
+    
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user_admin -d main_database_for_app"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+    networks:
+      - app_network
+
+  metabase:
+    image: metabase/metabase:latest
+    hostname: metabase
+    container_name: metabase
+    
+    ports:
+      - "3000:3000" 
+    
+    depends_on:
+      postgres-anon-db:
+        condition: service_healthy 
+
+    restart: always
+    networks:
+      - app_network 
+
+volumes:
+  pgdata:
+
+networks:
+  app_network:
+    driver: bridge
