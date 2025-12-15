@@ -26,7 +26,7 @@ SECURITY LABEL FOR anon ON COLUMN public.bank_accounts.account_name IS 'MASKED W
 SECURITY LABEL FOR anon ON COLUMN public.bank_accounts.account_number IS 'MASKED WITH FUNCTION anon.partial(account_number, 4, ''****'', 4)';
 
 -- Legal PII
-SECURITY LABEL FOR anon ON COLUMN public.cargo_owner_profiles.director_ktp IS 'MASKED WITH FUNCTION anon.digest(director_ktp, ''xsfnjefnjsnfjsnf'' ,''sha256'')';
+-- SECURITY LABEL FOR anon ON COLUMN public.cargo_owner_profiles.director_ktp IS 'MASKED WITH FUNCTION anon.digest(director_ktp, ''xsfnjefnjsnfjsnf'' ,''sha256'')';
 SECURITY LABEL FOR anon ON COLUMN public.cargo_owner_profiles.npwp_num IS 'MASKED WITH FUNCTION anon.partial(npwp_num, 3, ''***'', 4)';
 
 -- Operational PII
