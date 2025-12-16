@@ -1,8 +1,8 @@
 services:
-  postgres-anon-db:
+  postgres-masking-db:
     image: registry.gitlab.com/dalibo/postgresql_anonymizer:stable
-    hostname: postgres-anon-db
-    container_name: postgres-anon-db
+    hostname: postgres-masking-db
+    container_name: postgres-masking-db
     environment:
       POSTGRES_DB: barging
       POSTGRES_USER: user_admin
@@ -17,7 +17,7 @@ services:
     restart: always
     
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U user_admin -d main_database_for_app"]
+      test: ["CMD-SHELL", "pg_isready -U user_admin -d **barging**"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -34,7 +34,7 @@ services:
       - "3000:3000" 
 
     depends_on:
-      postgres-anon-db:
+      postgres-masking-db:
         condition: service_healthy 
 
     restart: always
