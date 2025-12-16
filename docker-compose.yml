@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: strong_password
       
     ports:
-      - "6453:5432" 
+      - "6454:5432" 
       
     volumes:
       - pgdata:/var/lib/postgresql/data 
@@ -17,7 +17,7 @@ services:
     restart: always
     
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U user_admin -d **barging**"]
+      test: ["CMD-SHELL", "pg_isready -U user_admin -d barging"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -31,7 +31,7 @@ services:
     container_name: metabase
     
     ports:
-      - "3000:3000" 
+      - "3001:3000" 
 
     depends_on:
       postgres-masking-db:
